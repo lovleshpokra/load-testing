@@ -1,0 +1,71 @@
+config:
+  target: "https://abc.in/"
+  http:
+  # Responses have to be sent within 10 seconds, or an `ETIMEDOUT` error gets raised.
+  timeout: 10
+  phases:
+    - duration: 60
+      arrivalRate: 100
+      name: Warm up
+    - duration: 120
+      arrivalRate: 500
+      rampTo: 1000
+      name: Ramp up load
+    - duration: 600
+      arrivalRate: 5000
+      name: Sustained load
+    - duration: 1000
+      arrivalRate: 10000
+      name: Over load
+
+scenarios:
+  - name: Get UI
+    flow:
+      - get:
+          url: "/Index"
+          capture:
+            - json: "$.name"
+              as: name
+          expect:
+            - statusCode: 200
+            
+      - get:
+          url: "/home/interviewregistrationform"
+          capture:
+            - json: "$.name"
+              as: name
+          expect:
+            - statusCode: 200
+            
+      - get:
+          url: "/free-courses"
+          capture:
+            - json: "$.name"
+              as: name
+          expect:
+            - statusCode: 200
+            
+      - get:
+          url: "/test-series"
+          capture:
+            - json: "$.name"
+              as: name
+          expect:
+            - statusCode: 200
+            
+      - get:
+          url: "/home/cart"
+          capture:
+            - json: "$.name"
+              as: name
+          expect:
+            - statusCode: 200
+     
+      - get:
+          url: "/student/confirmpackage"
+          capture:
+            - json: "$.name"
+              as: name
+          expect:
+            - statusCode: 200
+   
